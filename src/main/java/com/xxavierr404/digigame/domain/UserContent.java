@@ -9,7 +9,7 @@ import lombok.Data;
 public class UserContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
     @ManyToOne
     @NotNull

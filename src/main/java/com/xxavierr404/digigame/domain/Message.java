@@ -9,13 +9,13 @@ import lombok.Data;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long messageId;
+    private Long id;
 
-    @OneToOne(mappedBy = "chatId")
+    @ManyToOne
     @NotNull
     private Chat chat;
 
-    @OneToOne(mappedBy = "userId")
+    @ManyToOne
     @NotNull
     private User user;
 

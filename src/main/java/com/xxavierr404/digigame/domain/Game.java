@@ -12,7 +12,7 @@ import lombok.Data;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gameId;
+    private Long id;
 
     @NotNull
     private String gameName;

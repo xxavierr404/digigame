@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class License {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long licenseId;
+    private Long id;
 
     @ManyToOne
     @NotNull

@@ -9,7 +9,7 @@ import lombok.Data;
 public class IssueReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportId;
+    private Long id;
 
     @ManyToOne
     @NotNull

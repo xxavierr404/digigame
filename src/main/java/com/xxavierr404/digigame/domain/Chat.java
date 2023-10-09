@@ -11,11 +11,8 @@ import java.util.Set;
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatId;
+    private Long id;
 
     @NotNull
     private String chatName;
-
-    @ManyToMany(mappedBy = "chats")
-    private Set<User> members;
 }
