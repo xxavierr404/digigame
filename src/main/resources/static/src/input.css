@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.general-text {
+    @apply text-white text-3xl font-thin text-center
+}
+
+.title-text {
+    @apply text-white text-6xl tracking-wider font-thin text-center
+}
+
+.basic-input {
+    @apply w-full h-10 p-2 rounded-xl text-center
+}
+
+.big-button {
+    @apply w-full h-fit font-thin rounded-xl
+    text-white text-3xl p-2 mt-2 hover:scale-105 transition-all
+}
