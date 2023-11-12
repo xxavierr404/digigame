@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,14 +19,16 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.getByUsername(username).orElseThrow();
     }
 
-    public User create(UserRegisterDto userRegisterDto) {
-        return repository.save(mapper.userRegisterDtoToEntity(userRegisterDto));
+    public void register(UserRegisterDto userDto) {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        repository.save(mapper.userRegisterDtoToEntity(userDto));
     }
 
     public Optional<User> readOne(Long id) {
@@ -50,7 +53,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    private static boolean isPasswordEqual(UserCredentialsDto userCredentialsDto, Optional<User> userSearchResult) {
-        return userSearchResult.get().getPassword().equals(userCredentialsDto.getPassword());
+    private boolean isPasswordEqual(UserCredentialsDto userCredentialsDto, Optional<User> userSearchResult) {
+        return userSearchResult.get().getPassword().equals(passwordEncoder.encode(userCredentialsDto.getPassword()));
     }
 }
