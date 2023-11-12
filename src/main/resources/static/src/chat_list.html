@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>playpoint | Ваши чаты</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="bg-gradient-to-bl from-gray-900 to-gray-700">
+  <div class="flex flex-col w-full h-screen items-center gap-y-4">
+    <p class="title-text">playpoint</p>
+    <p class="general-text">Список ваших чатов</p>
+    <div class="flex flex-col gap-4 w-1/2 h-full justify-end pb-4">
+      <div class="grid grid-cols-5 h-full rounded-xl bg-blue-500 p-2 overflow-y-scroll">
+        <div class="flex flex-col rounded-xl bg-blue-900 gap-2 p-2 ring-2 ring-black text-white h-40
+            justify-center items-center">
+          <p>Название чата</p>
+        </div>
+      </div>
+      <div class="flex gap-2 h-10">
+        <input type="text" placeholder="Название чата..." class="rounded-xl pl-2 flex-1">
+        <button class="rounded-xl h-full w-fit px-3 py-1
+        bg-gradient-to-r from-green-900 to-green-500 text-white">Создать чат</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

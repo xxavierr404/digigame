@@ -18,3 +18,7 @@
     @apply w-full h-fit font-thin rounded-xl
     text-white text-3xl p-2 mt-2 hover:scale-105 transition-all
 }
+
+.game-card-buy-button {
+    @apply w-full h-fit text-black text-xl rounded-xl bg-white mt-2
+}

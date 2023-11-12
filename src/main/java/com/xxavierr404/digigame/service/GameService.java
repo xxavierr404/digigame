@@ -7,6 +7,7 @@ import com.xxavierr404.digigame.dto.mapper.GameMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,5 +40,9 @@ public class GameService {
         }
         repository.deleteById(id);
         return true;
+    }
+
+    public List<Game> getAllGames() {
+        return repository.findAll();
     }
 }

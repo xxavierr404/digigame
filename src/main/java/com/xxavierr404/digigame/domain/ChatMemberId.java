@@ -1,16 +1,14 @@
 package com.xxavierr404.digigame.domain;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
-@Entity
 @Data
-@Table(name = "user_chat")
-@IdClass(ChatMemberId.class)
-public class ChatMember {
+public class ChatMemberId implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name = "chat_id", referencedColumnName = "id")
@@ -20,7 +18,4 @@ public class ChatMember {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    @NotNull
-    private LocalDateTime joinTime = LocalDateTime.now();
 }
