@@ -6,6 +6,10 @@
     @apply text-white text-3xl font-thin text-center
 }
 
+.highlighted-text {
+    @apply text-white text-xl font-thin
+}
+
 .title-text {
     @apply text-white text-6xl tracking-wider font-thin text-center
 }

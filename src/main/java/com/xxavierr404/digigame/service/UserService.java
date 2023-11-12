@@ -56,4 +56,8 @@ public class UserService implements UserDetailsService {
     private boolean isPasswordEqual(UserCredentialsDto userCredentialsDto, Optional<User> userSearchResult) {
         return userSearchResult.get().getPassword().equals(passwordEncoder.encode(userCredentialsDto.getPassword()));
     }
+
+    public User findByUsername(String username) {
+        return repository.getByUsername(username).orElseThrow();
+    }
 }

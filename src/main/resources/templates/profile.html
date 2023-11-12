@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>playpoint | Профиль</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-gradient-to-bl from-gray-900 to-gray-700">
+<div class="flex flex-col w-full h-screen items-center gap-y-4">
+  <p class="title-text">playpoint</p>
+  <p class="general-text">Ваш аккаунт</p>
+  <div class="flex flex-col">
+    <div class="highlighted-text">Никнейм: <span th:text="${user.nickname}"></span></div>
+    <div class="highlighted-text">Логин: <span th:text="${user.username}"></span></div>
+  </div>
+  <p class="general-text">Ваша библиотека игр</p>
+  <div class="grid grid-cols-5 gap-12">
+    <div th:each="license : ${userLicenses}"
+         class="w-fit h-44 py-2 px-5 bg-gradient-to-t from-gray-900 to-green-500 flex flex-col justify-end rounded-xl hover:scale-105 transition-all">
+      <p class="text-white text-xl select-none text-center" th:text="${license.game.gameName}"></p>
+      <button class="game-card-buy-button px-2">Перейти</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
