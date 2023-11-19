@@ -18,9 +18,8 @@ public class IssueReportService {
 
     public IssueReport create(IssueReportDto dto) {
         var issueReport = new IssueReport();
-        issueReport.setGame(gameService.readOne(dto.getGameId()).orElseThrow());
+        issueReport.setGame(gameService.findById(dto.getGameId()).orElseThrow());
         issueReport.setUser(userService.readOne(dto.getUserId()).orElseThrow());
-        issueReport.setPost(userContentService.readOne(dto.getPostId()).orElseThrow());
         issueReport.setReportText(dto.getReportText());
         return repository.save(issueReport);
     }

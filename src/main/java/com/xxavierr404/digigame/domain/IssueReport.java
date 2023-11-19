@@ -16,7 +16,6 @@ public class IssueReport {
     private Game game;
 
     @ManyToOne
-    @NotNull
     private UserContent post;
 
     @ManyToOne

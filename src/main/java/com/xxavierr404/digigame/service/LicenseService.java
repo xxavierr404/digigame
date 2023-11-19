@@ -20,7 +20,7 @@ public class LicenseService {
     public License create(LicenseDto licenseDto) {
         var license = new License();
         license.setPurchaseTime(license.getPurchaseTime());
-        license.setGame(gameService.readOne(licenseDto.getGameId()).orElseThrow());
+        license.setGame(gameService.findById(licenseDto.getGameId()).orElseThrow());
         license.setUser(userService.readOne(licenseDto.getUserId()).orElseThrow());
         return repository.save(license);
     }

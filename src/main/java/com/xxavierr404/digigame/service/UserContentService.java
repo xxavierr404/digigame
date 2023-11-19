@@ -13,16 +13,18 @@ import java.util.Optional;
 public class UserContentService {
     private final UserContentRepository repository;
     private final UserService userService;
+    private final GameService gameService;
 
     public UserContent create(UserContentDto dto) {
         var userContent = new UserContent();
         userContent.setUser(userService.readOne(dto.getUserId()).orElseThrow());
         userContent.setContentType(dto.getContentType());
         userContent.setContentUrl(dto.getContentUrl());
+        userContent.setGame(gameService.findById(dto.getGameId()).orElseThrow());
         return repository.save(userContent);
     }
 
-    public Optional<UserContent> readOne(Long id) {
+    public Optional<UserContent> findById(Long id) {
         return repository.findById(id);
     }
 

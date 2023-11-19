@@ -24,5 +24,13 @@
 }
 
 .game-card-buy-button {
-    @apply w-full h-fit text-black text-xl rounded-xl bg-white mt-2
+    @apply w-full h-fit text-black text-xl rounded-xl bg-white mt-2 block text-center
+}
+
+.section-title {
+    @apply text-white text-xl font-thin text-center
+}
+
+.basic-text {
+    @apply text-white text-lg font-thin text-center
 }

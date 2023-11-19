@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>playpoint | Контент</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="bg-gradient-to-bl from-gray-900 to-gray-700">
+<div class="flex flex-col w-full h-screen items-center gap-y-4">
+  <p class="title-text">playpoint</p>
+  <div class="flex flex-col w-2/3 items-center">
+    <h1 class="highlighted-text" th:text="${game.gameName}"></h1>
+
+    <div class="section">
+      <h2 class="section-title">Пользовательский контент</h2>
+      <ul class="general-text">
+        <li th:each="content : ${game.userContents}">
+          <div>
+            <span th:text="${content.user.nickname} + ' добавил: ' + ${content.contentUrl}"></span>
+            <span th:if="${content.contentType == T(com.xxavierr404.digigame.domain.ContentType).SCREENSHOT}">[скриншот]</span>
+            <span th:if="${content.contentType == T(com.xxavierr404.digigame.domain.ContentType).MOD}">[мод]</span>
+            <span th:if="${content.contentType == T(com.xxavierr404.digigame.domain.ContentType).TEXT}">[текстовый контент]</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section w-full">
+      <h2 class="section-title">Добавить контент</h2>
+      <form th:action="@{'/games/' + ${gameId} + '/user-content'}" method="post" class="w-full flex flex-col">
+        <div class="flex w-full h-8">
+          <select name="contentType" class="rounded-xl pl-2">
+            <option value="SCREENSHOT">Скриншот</option>
+            <option value="MOD">Мод</option>
+            <option value="TEXT">Текст</option>
+          </select>
+          <input type="text" name="contentUrl" class="rounded-xl pl-2 flex-1 w-full" placeholder="Ссылка на контент">
+        </div>
+        <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-blue-950">
+          Добавить контент
+        </button>
+      </form>
+    </div>
+
+    <a th:href="@{'/games/' + ${gameId}}" class="big-button bg-gradient-to-br from-gray-900 to-gray-500 text-center">
+      Вернуться к странице игры
+    </a>
+  </div>
+</div>
+</body>
+</html>

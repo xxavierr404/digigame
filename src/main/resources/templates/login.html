@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>playpoint</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" th:href="style.css">
 </head>
 <body class="bg-gradient-to-bl from-gray-900 to-gray-700">
 <div class="flex flex-col w-full h-screen items-center gap-y-4">
@@ -23,10 +23,10 @@
     <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-blue-950">
       Войти
     </button>
+    <a th:href="@{/register}" class="big-button bg-gradient-to-br from-gray-900 to-green-950 text-center">
+      Зарегистрироваться
+    </a>
   </form>
-  <a th:href="@{/register}" class="big-button bg-gradient-to-br from-gray-900 to-green-950">
-    Зарегистрироваться
-  </a>
 </div>
 </body>
 </html>

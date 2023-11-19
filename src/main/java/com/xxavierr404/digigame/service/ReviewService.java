@@ -17,8 +17,9 @@ public class ReviewService {
 
     public Review create(ReviewDto dto) {
         var review = new Review();
-        review.setGame(gameService.readOne(dto.getGameId()).orElseThrow());
+        review.setGame(gameService.findById(dto.getGameId()).orElseThrow());
         review.setUser(userService.readOne(dto.getUserId()).orElseThrow());
+        review.setText(dto.getReviewText());
         return repository.save(review);
     }
 

@@ -8,4 +8,5 @@ public class UserContentDto {
     private Long userId;
     private ContentType contentType;
     private String contentUrl;
+    private Long gameId;
 }

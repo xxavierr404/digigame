@@ -20,7 +20,7 @@ public class GameService {
         return repository.save(mapper.fromDto(gameDto));
     }
 
-    public Optional<Game> readOne(Long id) {
+    public Optional<Game> findById(Long id) {
         return repository.findById(id);
     }
 

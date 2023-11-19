@@ -15,6 +15,10 @@ public class UserContent {
     @NotNull
     private User user;
 
+    @ManyToOne
+    @NotNull
+    private Game game;
+
     @Enumerated(EnumType.STRING)
     @NotNull
     private ContentType contentType;

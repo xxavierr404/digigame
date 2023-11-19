@@ -1,11 +1,10 @@
 package com.xxavierr404.digigame.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -16,4 +15,17 @@ public class Game {
 
     @NotNull
     private String gameName;
+
+    @OneToMany(mappedBy = "game")
+    private List<GameUpdate> updates;
+
+    @OneToMany(mappedBy = "game")
+    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "game")
+    private List<IssueReport> issueReports;
+
+    @OneToMany(mappedBy = "game")
+    private List<UserContent> userContents;
 }
+

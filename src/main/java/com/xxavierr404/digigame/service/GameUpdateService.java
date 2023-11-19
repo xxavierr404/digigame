@@ -16,7 +16,7 @@ public class GameUpdateService {
 
     public GameUpdate create(GameUpdateDto dto) {
         var gameUpdate = new GameUpdate();
-        gameUpdate.setGame(gameService.readOne(dto.getGameId()).orElseThrow());
+        gameUpdate.setGame(gameService.findById(dto.getGameId()).orElseThrow());
         gameUpdate.setUpdateUrl(dto.getUpdateUrl());
         return repository.save(gameUpdate);
     }
