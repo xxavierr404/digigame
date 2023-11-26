@@ -13,9 +13,6 @@
     <form action="/games" method="post" th:object="${gameDto}" class="flex">
       <input type="text" placeholder="Название игры" class="rounded-xl pl-2 flex-1" th:field="*{gameName}">
       <button type="submit" class="rounded-xl h-fit w-fit px-3 py-1 bg-white">Добавить игру</button>
-      <input type="hidden"
-             th:name="${_csrf.parameterName}"
-             th:value="${_csrf.token}" />
     </form>
   </div>
   <div class="grid grid-cols-5 gap-12 w-1/2">

@@ -30,7 +30,7 @@ public class User implements UserDetails {
     @NotNull
     private String role;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_chat",
             joinColumns = @JoinColumn(name = "user_id"),

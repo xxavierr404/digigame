@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Чат</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="bg-gradient-to-bl from-gray-900 to-gray-700">
+<div class="flex flex-col w-full h-screen items-center gap-y-4">
+  <p class="title-text">playpoint</p>
+  <p class="general-text" th:text="'Чат ' + ${chatName}"></p>
+  <div class="flex flex-col gap-4 w-1/2 h-full justify-end pb-4">
+    <div class="flex gap-2 h-10">
+      <input type="text" id="userInput" placeholder="Ник пользователя..." class="rounded-xl pl-2 flex-1">
+      <button onclick="inviteUser()" class="rounded-xl h-full w-fit px-3 py-1
+                bg-gradient-to-r from-blue-900 to-blue-500 text-white">Пригласить пользователя</button>
+    </div>
+    <div class="flex flex-col-reverse h-full rounded-xl bg-blue-500 p-2 overflow-y-scroll gap-2" id="messageContainer">
+      <div th:each="message : ${existingMessages}"
+           class="flex flex-col rounded-xl bg-blue-900 gap-2 p-2 ring-2 ring-black text-white">
+        <p th:text="${message.user.nickname}"></p>
+        <p th:text="${message.text}"></p>
+      </div>
+    </div>
+    <div class="flex gap-2 h-10">
+      <input type="text" id="messageInput" placeholder="Введите сообщение..." class="rounded-xl pl-2 flex-1">
+      <button onclick="sendMessage()" class="rounded-xl h-full w-fit px-3 py-1
+                bg-gradient-to-r from-blue-900 to-blue-500 text-white">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<script th:inline="javascript">
+  let stompClient = null;
+
+  function connectToChat() {
+    let socket = new SockJS('/chat-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+      stompClient.subscribe('/topic/chat/' + /*[[${chatId}]]*/ , function(message) {
+        showMessage(JSON.parse(message.body));
+      });
+    });
+  }
+
+  function showMessage(message) {
+    let messageContainer = document.getElementById('messageContainer');
+    let messageElement = document.createElement('div');
+    messageElement.classList.add('flex', 'flex-col', 'rounded-xl', 'bg-blue-900', 'gap-2', 'p-2', 'ring-2', 'ring-black', 'text-white');
+    messageElement.innerHTML = '<p>' + message.user.nickname + '</p><p>' + message.text + '</p>';
+    messageContainer.insertBefore(messageElement, messageContainer.firstChild);
+  }
+
+  function sendMessage() {
+    let messageInput = document.getElementById('messageInput');
+    let messageText = messageInput.value.trim();
+
+    if (messageText !== '') {
+      stompClient.send('/app/send/' + /*[[${chatId}]]*/ , {}, JSON.stringify({
+        'chatId': /*[[${chatId}]]*/,
+        'userId': /*[[${user.id}]]*/,
+        'text': messageText
+      }));
+      messageInput.value = '';
+    }
+  }
+
+  function inviteUser() {
+    let userInput = document.getElementById('userInput');
+    let username = userInput.value.trim();
+
+    if (username !== '') {
+      let userId = /*[[${user.id}]]*/;
+
+      $.ajax({
+        type: 'POST',
+        url: '/chats/invite',
+        data: { userId: userId, chatId: /*[[${chatId}]]*/, username: username },
+        success: function(response) {
+          console.log('Пользователь приглашен успешно.');
+        },
+        error: function(error) {
+          console.error('Ошибка при приглашении пользователя:', error);
+        }
+      });
+
+      userInput.value = '';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    connectToChat();
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/sockjs/1.1.4/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</body>
+</html>

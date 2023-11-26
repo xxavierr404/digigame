@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 public class Message {
@@ -21,4 +23,7 @@ public class Message {
 
     @NotNull
     private String text;
+
+    @NotNull
+    private LocalDateTime sentTime;
 }
