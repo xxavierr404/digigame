@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -38,5 +40,13 @@ public class UserController {
             model.addAttribute("userLicenses", userLicenses);
         }
         return "profile";
+    }
+
+    @PostMapping("/update-nickname")
+    public String updateNickname(@RequestParam String newNickname, Authentication authentication) {
+        var user = ((User) authentication.getPrincipal());
+        user.setNickname(newNickname);
+        userService.update(user);
+        return "redirect:/user/profile";
     }
 }

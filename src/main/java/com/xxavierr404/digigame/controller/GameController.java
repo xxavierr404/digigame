@@ -1,7 +1,9 @@
 package com.xxavierr404.digigame.controller;
 
+import com.xxavierr404.digigame.domain.GameUpdate;
 import com.xxavierr404.digigame.domain.User;
 import com.xxavierr404.digigame.dto.GameDto;
+import com.xxavierr404.digigame.dto.GameUpdateDto;
 import com.xxavierr404.digigame.dto.IssueReportDto;
 import com.xxavierr404.digigame.dto.ReviewDto;
 import com.xxavierr404.digigame.service.*;
@@ -18,15 +20,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class GameController {
     private final GameService gameService;
+    private final GameUpdateService gameUpdateService;
     private final ReviewService reviewService;
     private final IssueReportService reportService;
-    private final UserContentService contentService;
     private final UserService userService;
 
     @GetMapping("/games")
-    public String getGames(Model model) {
+    public String getGames(Authentication authentication, Model model) {
         model.addAttribute("games", gameService.getAllGames());
         model.addAttribute("gameDto", new GameDto());
+        model.addAttribute("user", authentication.getPrincipal());
         return "games";
     }
 
@@ -42,6 +45,7 @@ public class GameController {
         var userId = ((User) authentication.getPrincipal()).getId();
         model.addAttribute("game", gameOpt.orElseThrow());
         model.addAttribute("owned", userService.hasGame(userId, gameId));
+        model.addAttribute("user", authentication.getPrincipal());
         return "game-details";
     }
 
@@ -85,6 +89,17 @@ public class GameController {
                     gameId
             );
         }
+        return "redirect:/games/{gameId}";
+    }
+
+    @PostMapping("/games/{gameId}/updates")
+    public String addUpdate(@PathVariable Long gameId, @RequestParam String updateUrl) {
+        var update = new GameUpdateDto();
+        update.setGameId(gameId);
+        update.setUpdateUrl(updateUrl);
+
+        gameUpdateService.create(update);
+
         return "redirect:/games/{gameId}";
     }
 

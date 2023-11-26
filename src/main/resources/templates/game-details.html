@@ -7,7 +7,7 @@
 </head>
 <body class="bg-gradient-to-bl from-gray-900 to-gray-700">
 <div class="flex flex-col w-full h-screen items-center gap-y-4">
-  <p class="title-text">playpoint</p>
+  <a th:href="@{/}" class="title-text">playpoint</a>
   <div class="flex flex-col w-2/3">
     <h1 class="general-text" th:text="${game.gameName}"></h1>
 
@@ -16,6 +16,12 @@
       <ul>
         <li class="basic-text" th:each="update : ${game.updates}" th:text="${update.updateUrl}"></li>
       </ul>
+      <form th:if="${user.role == 'PUBLISHER'}" th:action="@{'/games/' + ${gameId} + '/updates'}" method="post">
+        <input id="updateUrl" name="updateUrl" placeholder="Ссылка на обновление" class="w-full">
+        <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-green-950">
+          Добавить обновление
+        </button>
+      </form>
     </div>
 
     <div class="section">
@@ -25,7 +31,7 @@
           <p class="basic-text" th:text="${review.user.nickname} + ': ' + ${review.text}"></p>
         </li>
       </ul>
-      <form th:action="@{'/games/' + ${gameId} + '/reviews'}" method="post">
+      <form th:if="${user.role != 'PUBLISHER'}" th:action="@{'/games/' + ${gameId} + '/reviews'}" method="post">
         <textarea name="text" rows="3" cols="50" placeholder="Оставьте отзыв" class="resize-none w-full"></textarea>
         <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-green-950">
           Оставить отзыв
@@ -40,7 +46,7 @@
           <p class="basic-text" th:text="${report.user.nickname} + ': ' + ${report.reportText}"></p>
         </li>
       </ul>
-      <form th:action="@{'/games/' + ${gameId} + '/reports'}" method="post">
+      <form th:if="${user.role != 'PUBLISHER'}" th:action="@{'/games/' + ${gameId} + '/reports'}" method="post">
         <textarea name="reportText" rows="3" cols="50" placeholder="Опишите проблему" class="resize-none w-full"></textarea>
         <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-red-950">
           Сообщить об ошибке
@@ -48,7 +54,7 @@
       </form>
     </div>
 
-    <div th:if="${!owned}">
+    <div th:if="${!owned && user.role != 'PUBLISHER'}">
       <form th:action="@{'/games/' + ${gameId} + '/purchase'}" method="get">
         <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-green-950">
           Купить игру
