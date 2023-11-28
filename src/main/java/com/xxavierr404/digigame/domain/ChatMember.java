@@ -1,7 +1,6 @@
 package com.xxavierr404.digigame.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -23,6 +22,8 @@ public class ChatMember {
     private User user;
 
     private LocalDateTime joinTime;
+
+    private String state;
 
     @PrePersist
     public void memberInit() {

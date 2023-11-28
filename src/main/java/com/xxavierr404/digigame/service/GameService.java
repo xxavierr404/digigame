@@ -45,4 +45,8 @@ public class GameService {
     public List<Game> getAllGames() {
         return repository.findAll();
     }
+
+    public List<Game> searchByName(String name) {
+        return repository.findAllByGameNameLikeIgnoreCase(name);
+    }
 }

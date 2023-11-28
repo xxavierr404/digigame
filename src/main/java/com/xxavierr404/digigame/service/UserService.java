@@ -33,6 +33,11 @@ public class UserService implements UserDetailsService {
     }
 
     public void register(UserRegisterDto userDto) {
+        if (repository.getByUsername(userDto.getUsername()).isPresent()
+        || repository.getByNickname(userDto.getNickname()).isPresent()) {
+            throw new IllegalArgumentException("Username or nickname already taken");
+        }
+
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         repository.save(mapper.userRegisterDtoToEntity(userDto));
     }

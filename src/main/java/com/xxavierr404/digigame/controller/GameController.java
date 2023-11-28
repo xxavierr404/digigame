@@ -1,6 +1,5 @@
 package com.xxavierr404.digigame.controller;
 
-import com.xxavierr404.digigame.domain.GameUpdate;
 import com.xxavierr404.digigame.domain.User;
 import com.xxavierr404.digigame.dto.GameDto;
 import com.xxavierr404.digigame.dto.GameUpdateDto;
@@ -8,13 +7,17 @@ import com.xxavierr404.digigame.dto.IssueReportDto;
 import com.xxavierr404.digigame.dto.ReviewDto;
 import com.xxavierr404.digigame.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,11 +44,12 @@ public class GameController {
 
     @GetMapping("/games/{gameId}")
     public String gameDetails(@PathVariable Long gameId, Authentication authentication, Model model) {
-        var gameOpt = gameService.findById(gameId);
+        var game = gameService.findById(gameId).orElseThrow();
         var userId = ((User) authentication.getPrincipal()).getId();
-        model.addAttribute("game", gameOpt.orElseThrow());
+        model.addAttribute("game", game);
         model.addAttribute("owned", userService.hasGame(userId, gameId));
         model.addAttribute("user", authentication.getPrincipal());
+        model.addAttribute("hasCover", game.getCoverImage() != null);
         return "game-details";
     }
 
@@ -108,5 +112,52 @@ public class GameController {
         var game = gameService.findById(gameId).orElseThrow();
         model.addAttribute("game", game);
         return "game-content";
+    }
+
+    @PostMapping("/games/{gameId}/edit")
+    public String editGameDetails(
+            @PathVariable Long gameId,
+            @RequestParam String description,
+            @RequestParam("coverImage") MultipartFile coverImage
+    ) {
+        var game = gameService.findById(gameId).orElseThrow();
+        game.setDescription(description);
+
+        try {
+            byte[] coverImageData = coverImage.getBytes();
+            game.setCoverImage(coverImageData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        gameService.update(game);
+
+        return "redirect:/games/" + gameId;
+    }
+
+    @GetMapping("/games/{gameId}/coverImage")
+    @ResponseBody
+    public ResponseEntity<byte[]> getGameCoverImage(@PathVariable Long gameId) {
+        var game = gameService.findById(gameId).orElseThrow();
+
+        var coverImage = game.getCoverImage();
+
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+        return new ResponseEntity<>(coverImage, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public String searchGames(@RequestParam(name = "search", required = false) String search, Model model) {
+        if (search == null) {
+            return "redirect:/games";
+        }
+
+        var searchResults = gameService.searchByName(search);
+
+        model.addAttribute("games", searchResults);
+
+        return "games";
     }
 }

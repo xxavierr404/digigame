@@ -71,11 +71,12 @@
 
     if (username !== '') {
       let userId = /*[[${user.id}]]*/;
+      let chatId = /*[[${chatId}]]*/;
 
       $.ajax({
         type: 'POST',
-        url: '/chats/invite',
-        data: { userId: userId, chatId: /*[[${chatId}]]*/, username: username },
+        url: `/chats/${chatId}/invite`,
+        data: { userId: userId, username: username },
         success: function(response) {
           console.log('Пользователь приглашен успешно.');
         },

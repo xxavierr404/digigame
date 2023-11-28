@@ -8,6 +8,22 @@
 <body class="bg-gradient-to-bl from-gray-900 to-gray-700">
 <div class="flex flex-col w-full h-screen items-center gap-y-4">
   <a th:href="@{/}" class="title-text">playpoint</a>
+
+  <div th:if="${invitations != null && invitations.size() > 0}" class="flex flex-col w-full items-center gap-y-4">
+    <p class="general-text">Ваши входящие приглашения</p>
+    <ul>
+      <li th:each="invitation : ${invitations}">
+        <span class="general-text" th:text="${invitation.chatName}"></span>
+        <form th:action="@{'/chats/' + ${invitation.id} + '/accept-invite'}" method="post">
+          <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-blue-950">Принять</button>
+        </form>
+        <form th:action="@{'/chats/' + ${invitation.id} + '/decline-invite'}" method="post">
+          <button type="submit" class="big-button bg-gradient-to-br from-gray-900 to-green-950">Отклонить</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+
   <p class="general-text">Список ваших чатов</p>
 
   <div class="flex flex-col gap-4 w-1/2 h-full justify-end pb-4">

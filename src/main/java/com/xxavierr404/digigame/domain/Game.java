@@ -16,6 +16,10 @@ public class Game {
     @NotNull
     private String gameName;
 
+    private String description;
+
+    private byte[] coverImage;
+
     @OneToMany(mappedBy = "game")
     private List<GameUpdate> updates;
 
