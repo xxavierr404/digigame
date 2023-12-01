@@ -75,9 +75,7 @@ public class UserService implements UserDetailsService {
 
     public boolean hasGame(Long userId, Long gameId) {
         var license = licenseRepository
-                .getAllByUser(
-                        repository.findById(userId).orElseThrow()
-                ).stream()
+                .getAllByUserId(userId).stream()
                 .filter(l -> l.getGame().getId().equals(gameId))
                 .findAny()
                 .orElse(null);

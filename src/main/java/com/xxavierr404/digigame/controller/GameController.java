@@ -148,8 +148,8 @@ public class GameController {
         return new ResponseEntity<>(coverImage, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public String searchGames(@RequestParam(name = "search", required = false) String search, Model model) {
+    @GetMapping("/games/search")
+    public String searchGames(@RequestParam(name = "search", required = false) String search, Authentication authentication, Model model) {
         if (search == null) {
             return "redirect:/games";
         }
@@ -157,6 +157,8 @@ public class GameController {
         var searchResults = gameService.searchByName(search);
 
         model.addAttribute("games", searchResults);
+        model.addAttribute("user", authentication.getPrincipal());
+        model.addAttribute("gameDto", new GameDto());
 
         return "games";
     }

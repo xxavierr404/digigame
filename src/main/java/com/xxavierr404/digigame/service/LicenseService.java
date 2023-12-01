@@ -2,7 +2,6 @@ package com.xxavierr404.digigame.service;
 
 import com.xxavierr404.digigame.dao.LicenseRepository;
 import com.xxavierr404.digigame.domain.License;
-import com.xxavierr404.digigame.domain.User;
 import com.xxavierr404.digigame.dto.LicenseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ public class LicenseService {
         return true;
     }
 
-    public List<License> findByUser(User user) {
-        return repository.getAllByUser(user);
+    public List<License> findByUserId(Long userId) {
+        return repository.getAllByUserId(userId);
     }
 }

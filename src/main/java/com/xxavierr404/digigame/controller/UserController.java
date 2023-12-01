@@ -34,7 +34,7 @@ public class UserController {
             String username = userDetails.getUsername();
 
             User user = userService.findByUsername(username);
-            List<License> userLicenses = licenseService.findByUser(user);
+            List<License> userLicenses = licenseService.findByUserId(user.getId());
 
             model.addAttribute("user", user);
             model.addAttribute("userLicenses", userLicenses);
