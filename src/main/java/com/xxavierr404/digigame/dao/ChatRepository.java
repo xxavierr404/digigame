@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, Long> {
+    // здесь используются методы findById() и save(), предоставляемые Spring Data JPA по умолчанию
 }

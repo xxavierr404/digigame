@@ -26,4 +26,9 @@ public class Message {
 
     @NotNull
     private LocalDateTime sentTime;
+
+    @PrePersist
+    public void sentTimeInit() {
+        sentTime = LocalDateTime.now();
+    }
 }

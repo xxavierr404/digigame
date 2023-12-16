@@ -1,12 +1,8 @@
 package com.xxavierr404.digigame.service;
 
 import com.xxavierr404.digigame.dao.ChatMemberRepository;
-import com.xxavierr404.digigame.dao.ChatRepository;
-import com.xxavierr404.digigame.domain.Chat;
 import com.xxavierr404.digigame.domain.ChatMember;
-import com.xxavierr404.digigame.dto.ChatDto;
 import com.xxavierr404.digigame.dto.ChatMemberDto;
-import com.xxavierr404.digigame.dto.mapper.ChatMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +25,6 @@ public class ChatMemberService {
         return repository.save(chatMember);
     }
 
-    public List<ChatMember> getChatsOfUser(Long id) {
-        return repository.findAllByUserId(id);
-    }
-
-    public List<ChatMember> getUsersOfChat(Long id) {
-        return repository.findAllByChatId(id);
-    }
-
     public boolean delete(Long id) {
         var searchResult = repository.findById(id);
         if (searchResult.isEmpty()) {
@@ -44,5 +32,13 @@ public class ChatMemberService {
         }
         repository.deleteById(id);
         return true;
+    }
+
+    public Optional<ChatMember> findByUserIdAndChatId(Long userId, Long chatId) {
+        return repository.findByUserIdAndChatId(userId, chatId);
+    }
+
+    public List<ChatMember> findAllByUserIdAndState(Long userId, String state) {
+        return repository.findAllByUserIdAndState(userId, state);
     }
 }
